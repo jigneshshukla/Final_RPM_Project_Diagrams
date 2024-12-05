@@ -1,0 +1,47 @@
+stateDiagram-v2
+    [*] --> Solve: Problem Received
+    
+    state solve_strategies <<choice>>
+    Solve --> solve_strategies
+
+    solve_strategies --> ExactlyMatchingImages: First Strategy
+    solve_strategies --> FlippedImages: Second Strategy
+    solve_strategies --> RotatedImages: Third Strategy
+    solve_strategies --> ShapeFillComparison: Fourth Strategy
+    solve_strategies --> ExactShapeComparison: Fifth Strategy
+    solve_strategies --> ShapeTransformation: Sixth Strategy
+    solve_strategies --> RandomAnswer: Final Fallback
+
+    ExactlyMatchingImages --> CheckAnswer
+    FlippedImages --> CheckAnswer
+    RotatedImages --> CheckAnswer
+    ShapeFillComparison --> CheckAnswer
+    ExactShapeComparison --> CheckAnswer
+    ShapeTransformation --> CheckAnswer
+    RandomAnswer --> ReturnResult
+
+    state CheckAnswer {
+        state if_answer <<choice>>
+        if_answer --> ReturnResult: [Answer Found]
+        if_answer --> NextStrategy: [No Match]
+    }
+
+    NextStrategy --> solve_strategies
+
+    ReturnResult --> [*]
+
+    note right of Solve
+        Solving Strategies in Order:
+        1. Exactly Matching Images
+        2. Flipped Images
+           - Horizontal
+           - Vertical
+           - Both Horizontal and Vertical
+        3. Rotated Images
+           - 90° Clockwise
+           - 90° Counterclockwise
+        4. Shape Fill Comparison
+        5. Exact Shape Comparison
+        6. Shape Transformation
+        7. Random Selection
+    end note

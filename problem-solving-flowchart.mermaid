@@ -1,0 +1,62 @@
+stateDiagram-v2
+    [*] --> DetermineproblemType: Problem Received
+    
+    state problem_type_selection <<choice>>
+    DetermineProblemType --> problem_type_selection
+
+    problem_type_selection --> TwoByTwoSolver: 2x2 Problem
+    problem_type_selection --> ThreeByThreeSolver: 3x3 Problem
+    problem_type_selection --> Unsupported: Unsupported Problem Size
+
+    state TwoByTwoSolver {
+        state solve_strategies_2x2 <<choice>>
+        [*] --> solve_strategies_2x2
+        
+        solve_strategies_2x2 --> ExactlyMatchingImages: First Strategy
+        solve_strategies_2x2 --> FlippedImages: Second Strategy
+        solve_strategies_2x2 --> RotatedImages: Third Strategy
+        solve_strategies_2x2 --> ShapeFillComparison: Fourth Strategy
+        solve_strategies_2x2 --> ExactShapeComparison: Fifth Strategy
+        solve_strategies_2x2 --> ShapeTransformation: Sixth Strategy
+        solve_strategies_2x2 --> RandomAnswer: Final Fallback
+
+        state CheckAnswer2x2 {
+            state if_answer_2x2 <<choice>>
+            if_answer_2x2 --> ReturnResult2x2: [Answer Found]
+            if_answer_2x2 --> NextStrategy2x2: [No Match]
+        }
+
+        NextStrategy2x2 --> solve_strategies_2x2
+        ReturnResult2x2 --> [*]
+    }
+
+    state ThreeByThreeSolver {
+        state solve_strategies_3x3 <<choice>>
+        [*] --> solve_strategies_3x3
+        
+        solve_strategies_3x3 --> ExactlyMatchingImages3x3: First Strategy
+        solve_strategies_3x3 --> FlippedImages3x3: Second Strategy
+        solve_strategies_3x3 --> RotatedImages3x3: Third Strategy
+        solve_strategies_3x3 --> ShapeComparison3x3: Fourth Strategy
+        solve_strategies_3x3 --> TransformationRules3x3: Fifth Strategy
+        solve_strategies_3x3 --> RandomAnswer3x3: Final Fallback
+
+        state CheckAnswer3x3 {
+            state if_answer_3x3 <<choice>>
+            if_answer_3x3 --> ReturnResult3x3: [Answer Found]
+            if_answer_3x3 --> NextStrategy3x3: [No Match]
+        }
+
+        NextStrategy3x3 --> solve_strategies_3x3
+        ReturnResult3x3 --> [*]
+    }
+
+    Unsupported --> [*]
+
+    note right of DetermineProblemType
+        Problem Solving Flow:
+        1. Determine Problem Type
+        2. Select Appropriate Solver
+        3. Apply Solving Strategies
+        4. Return Best Answer
+    end note
