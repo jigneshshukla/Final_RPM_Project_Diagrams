@@ -28,6 +28,7 @@ stateDiagram-v2
 
         NextStrategy2x2 --> solve_strategies_2x2
         ReturnResult2x2 --> [*]
+
     }
 
     state ThreeByThreeSolver {
@@ -59,4 +60,36 @@ stateDiagram-v2
         2. Select Appropriate Solver
         3. Apply Solving Strategies
         4. Return Best Answer
+    end note
+
+    note left of TwoByTwoSolver
+        Solving Strategies in Order:
+        1. Exactly Matching Images
+        2. Flipped Images
+           - Horizontal
+           - Vertical
+           - Both Horizontal and Vertical
+        3. Rotated Images
+           - 90° Clockwise
+           - 90° Counterclockwise
+        4. Shape Fill Comparison
+        5. Exact Shape Comparison
+        6. Shape Transformation
+        7. Random Selection
+    end note
+    
+    note right of ThreeByThreeSolver
+        Solving Strategies in Order:
+        1. Exactly Matching Images
+        2. Flipped Images
+           - Horizontal
+           - Vertical
+           - Both Horizontal and Vertical
+        3. Rotated Images
+           - 90° Clockwise
+           - 90° Counterclockwise
+        4. Shape Fill Comparison
+        5. Exact Shape Comparison
+        6. Shape Transformation
+        7. Random Selection
     end note
